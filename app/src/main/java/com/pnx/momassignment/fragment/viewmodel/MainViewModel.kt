@@ -1,14 +1,21 @@
 package com.pnx.momassignment.fragment
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.*
+import androidx.paging.*
 import com.pnx.momassignment.R
 import com.pnx.momassignment.activity.ActivityViewModel
 import com.pnx.momassignment.livedata.ActivityDataSource
 import com.pnx.momassignment.network.NetworkService
 import com.pnx.momassignment.room.RoomDBClient
-import com.pnx.momassignment.room.model.UserItem
+import com.pnx.momassignment.room.data.LoadDiv
+import com.pnx.momassignment.room.data.UserItem
+import com.pnx.momassignment.room.data.UserItemPaginSource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlin.collections.ArrayList
 
 /**
  * MainViewModel
@@ -23,54 +30,104 @@ class MainViewModel(private val dataSource: ActivityDataSource) : ViewModel() {
     val selectedMainTabMenu: LiveData<Int> = _selectedMainTabMenu
 
 
-    // 마케팅 동의여부
-    private val _searchUserList = MutableLiveData<MutableList<UserItem>>()
-    val searchUserList: LiveData<MutableList<UserItem>> get() = _searchUserList
+    // API 검색 유져
+    private val _searchUserList = MutableLiveData<PagingData<UserItem>>()
+    val searchUserList: LiveData<PagingData<UserItem>> get() = _searchUserList
 
+    // 로컬 검색 유져
+    private val _localSearchUserList = MutableLiveData<PagingData<UserItem>>()
+    val localSearchUserList: LiveData<PagingData<UserItem>> get() = _localSearchUserList
 
+    // 선택한 유저 정보
+    private val _selectUser = MutableLiveData<UserItem>()
+    val selectUser: LiveData<UserItem> get() = _selectUser
+
+    var perPage = 100               // 조회 사용자 수
+    var apiSearchName = ""          // 사용자 검색 이름
+    var locakSearchName = ""        // 즐겨찾기 사용자 검색 이름
 
     /**
-     * 선택 된 메뉴 저장ㅅㄷㄴㅅ
+     * 선택 된 메뉴 저장
      */
     fun setSelectedMenuId(selectedMenuId: Int) {
         _selectedMainTabMenu.value = selectedMenuId
     }
 
-    fun getUserList(name:String){
-        dataSource.launchNetworkLoad(viewModelScope) {
-            val result = NetworkService().getApiService().userInfo(
-                q = name,
-                sort = "",
-                order = "",
-                per_page = 100,
-                page = 1
-            )
-            _searchUserList.value = result.items
-        }
+    fun setUserMemo(memo:String) {
+        _selectUser.value?.memo = memo
     }
-    fun saveUser(context: Context){
-        dataSource.launchNetworkLoad(viewModelScope) {
-            searchUserList.value?.let {
-                it.map { userItem ->
-                    Log.d("TEST", "userItem.id = ${userItem.id}")
-                    Log.d("TEST", "userItem.login = ${userItem.login}")
-                    val db = RoomDBClient.getUserDatabase(context)
-                    val localId = db.userDao().getUserId(id = userItem.id)
-                    Log.d("TEST", "localId = $localId")
-                    if (localId == null) {
-                        db.userDao().insert(userItem)
-                    } else {
-                        db.userDao().update(userItem)
-                    }
-                }
+
+    fun getLocalUserListApi(context:Context){
+        viewModelScope.launch {
+            val dao = RoomDBClient.getUserDatabase(context).userDao()
+            Pager(
+                config = PagingConfig(
+                    pageSize = perPage,
+                    enablePlaceholders = false
+                ),
+                pagingSourceFactory = { UserItemPaginSource(dao,apiSearchName,perPage,LoadDiv.API) }
+            ).flow.cachedIn(viewModelScope).collectLatest { pagingData ->
+                _searchUserList.value = pagingData
             }
         }
     }
-    fun getUser(context: Context, block:suspend (ArrayList<UserItem>)-> Unit) {
+
+    fun getUserDetail(login:String,block: suspend () -> Unit){
         dataSource.launchNetworkLoad(viewModelScope) {
-            val db = RoomDBClient.getUserDatabase(context)
-            block(ArrayList(db.userDao().getAll()))
+            val result = NetworkService().getApiService().userDetail(
+                login = login
+            )
+            _selectUser.value = result
+            block()
         }
+    }
+
+    fun getLocalUserList(context:Context){
+        viewModelScope.launch {
+            val dao = RoomDBClient.getUserDatabase(context).userDao()
+            Pager(
+                config = PagingConfig(
+                    pageSize = perPage,
+                    enablePlaceholders = false
+                ),
+                pagingSourceFactory = { UserItemPaginSource(dao,locakSearchName,perPage) }
+            ).flow.cachedIn(viewModelScope).collectLatest { pagingData ->
+                var strGroup = ""
+                var data = pagingData.map {
+                    var userItem = it
+                    val firstStr = it.login.substring(0,1).uppercase()
+                    if (strGroup != firstStr) {
+                        strGroup = firstStr
+                        userItem.strGroup = firstStr
+                    }
+                    userItem
+                }
+                _localSearchUserList.value = data
+            }
+        }
+    }
+
+    suspend fun getLocalChackUserId(context:Context,id:Int,block:suspend (Boolean)->Unit){
+        val db = RoomDBClient.getUserDatabase(context).userDao()
+        val localId = db.getUserId(id = id)
+        block(localId != null)
+    }
+
+    fun getLocalUser(context:Context,id: Int):UserItem?{
+        val dao = RoomDBClient.getUserDatabase(context).userDao()
+        return dao.getUser(id)
+    }
+    fun insertLocalUser(context:Context,userItem: UserItem){
+        val dao = RoomDBClient.getUserDatabase(context).userDao()
+        dao.insert(userItem)
+    }
+    fun deleteLocalUser(context:Context,userItem: UserItem){
+        val dao = RoomDBClient.getUserDatabase(context).userDao()
+        dao.delete(userItem)
+    }
+    fun updateLocalUser(context:Context,userItem: UserItem){
+        val dao = RoomDBClient.getUserDatabase(context).userDao()
+        dao.update(userItem)
     }
 }
 

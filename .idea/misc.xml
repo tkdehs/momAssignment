@@ -24,10 +24,26 @@
         <entry key="..\:/androidproject/momAssignment/app/src/main/res/layout/fragment_main.xml" value="0.3" />
         <entry key="..\:/androidproject/momAssignment/app/src/main/res/layout/fragment_search_user.xml" value="0.3" />
         <entry key="..\:/androidproject/momAssignment/app/src/main/res/menu/bottom_navigation_items.xml" value="0.3" />
+        <entry key="app/src/main/res/drawable/alert_background.xml" value="0.328" />
+        <entry key="app/src/main/res/drawable/ic_baseline_search.xml" value="0.2995" />
+        <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.328" />
+        <entry key="app/src/main/res/drawable/ic_baseline_star.xml" value="0.2995" />
+        <entry key="app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.328" />
+        <entry key="app/src/main/res/drawable/ic_baseline_star_empty.xml" value="0.328" />
+        <entry key="app/src/main/res/drawable/ic_dummy.xml" value="0.328" />
+        <entry key="app/src/main/res/drawable/search_bar_background.xml" value="0.328" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3255208333333333" />
+        <entry key="app/src/main/res/layout/fragment_detail_user.xml" value="0.4119791666666667" />
+        <entry key="app/src/main/res/layout/fragment_favorites_user.xml" value="0.2671875" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.3255208333333333" />
+        <entry key="app/src/main/res/layout/fragment_search_user.xml" value="0.4699248120300752" />
+        <entry key="app/src/main/res/layout/fragment_search_user_Adapter.xml" value="0.3255208333333333" />
+        <entry key="app/src/main/res/layout/fragment_search_user_adapter.xml" value="0.5557324840764332" />
+        <entry key="app/src/main/res/menu/bottom_navigation_items.xml" value="0.3255208333333333" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

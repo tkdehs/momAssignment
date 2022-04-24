@@ -1,6 +1,6 @@
 package com.pnx.momassignment.network.recive
 
-import com.pnx.momassignment.room.model.UserItem
+import com.pnx.momassignment.room.data.UserItem
 
 class RecvUser:RecvBase() {
     var incomplete_results: Boolean = false

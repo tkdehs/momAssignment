@@ -39,9 +39,8 @@ open class BaseFragment: Fragment() {
 
     val RESULT_KEY = "RESULT_KEY"   // Activity의 Result Key
     // fragmentResult에 값을 전달 하기 위한 시작 지점 Fragment 이름 저장 키
-    protected val BUNDLE_KEY_START = "BUNDLE_KEY_START"
 
-    private val scope = CoroutineScope(Dispatchers.IO)
+    protected val scope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,73 +73,6 @@ open class BaseFragment: Fragment() {
         setObserve()
     }
 
-    /**
-     * 네트워크 Thread 처리
-     * 프로그래스 상태 처리 및 오류 알림을 위한 Try/Catch처리
-     */
-    fun launchNetworkLoad(successBlock: suspend() -> Unit): Job {
-        return scope.launch {
-            try {
-                if (!NetworkUtil.checkConnectNetwork(BaseApplication.applicationContext())) {
-                    Handler(Looper.getMainLooper()).post {
-                        CDialog.showDlg(requireContext(), requireContext().getString(R.string.connection_error_message))
-                    }
-                    return@launch
-                }
-                Handler(Looper.getMainLooper()).post {
-                    showProgress()
-                }
-                successBlock()
-            } catch (error: Throwable) {
-                if (error is CancellationException) {
-                    // job cancelAndJoin() 에러 제외
-//                    Log.e(TAG, "launchNetworkLoad CancellationException 에러 제외")
-                } else {
-                    error.printStackTrace()
-                    Handler(Looper.getMainLooper()).post {
-                        CDialog.showDlg(requireContext(), requireContext().getString(R.string.network_error_message))
-                        hideProgress()
-                    }
-                }
-            } finally {
-                Handler(Looper.getMainLooper()).post {
-                    hideProgress()
-                }
-            }
-        }
-    }
-
-
-    /**
-     * 에러 직접 처리
-     */
-    fun launchNetworkLoad(successBlock: suspend() -> Unit                   // 성공시 수행할 동작 Block
-                          , errorBlock: suspend(error: Throwable) -> Unit   // 실패시 수행할 동작 Block
-    ): Job {
-        return scope.launch {
-            try {
-                if (!NetworkUtil.checkConnectNetwork(requireContext())) {
-//                    Handler(Looper.getMainLooper()).post {
-//                        CDialog.showDlg(requireContext(), requireContext().getString(R.string.connection_error_message))
-//                    }
-//                    return@launch
-                    throw Exception()
-                }
-
-                Handler(Looper.getMainLooper()).post {
-                    showProgress()
-                }
-                successBlock()
-            } catch (error: Throwable) {
-                error.printStackTrace()
-                errorBlock(error)
-            } finally {
-                Handler(Looper.getMainLooper()).post {
-                    hideProgress()
-                }
-            }
-        }
-    }
 
     /**
      * BackPress 종료 체크 Toast
@@ -154,30 +86,6 @@ open class BaseFragment: Fragment() {
         if (!isFinish)
             Toast.makeText(requireContext(), getString(R.string.finish_toast), Toast.LENGTH_SHORT).show()
         return if(isFinish) requireActivity().finishAffinity() else isFinish = true
-    }
-
-
-    /**
-     * 이전 플래그먼트로 데이터 전달
-     * rcvClass :  fragment stack에 있는 전달 대상 이전 Fragment
-     * bundle : 전달할 데이터
-     */
-    open fun setFragmentResult(rcvClass: Class<*>           // 이전 Stack의 Fragment Class
-                               , bundle: Bundle = Bundle()  // 이전 Fragment로 전달 할 Bundle
-    ) {
-        // 이전 플래그먼트에 데이터 전달
-        setFragmentResult(rcvClass.simpleName, bundle)
-    }
-
-    /**
-     * startActivityForResult로 DummyActivity가 열린 경우 이전으로 Activity로 데이터 전달
-     * resultCode : Activity.RESULT_OK
-     */
-    open fun setActivityResult(resultCode: Int, bundle: Bundle = Bundle()): Activity {
-        val intent = Intent()
-        intent.putExtra(RESULT_KEY, bundle)
-        requireActivity().setResult(resultCode, intent)
-        return requireActivity()
     }
 
     /**
@@ -280,7 +188,6 @@ open class BaseFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-
     }
 
     /**

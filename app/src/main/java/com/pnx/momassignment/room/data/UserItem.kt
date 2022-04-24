@@ -1,4 +1,4 @@
-package com.pnx.momassignment.room.model
+package com.pnx.momassignment.room.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -25,5 +25,20 @@ class UserItem (
     @ColumnInfo(name = "type") var type: String = "",
     @ColumnInfo(name = "site_admin") var site_admin: String = "",
     @ColumnInfo(name = "score") var score: Int = 0,
-    @ColumnInfo(name = "memo") var memo: String = ""
+    @ColumnInfo(name = "memo") var memo: String = "",
+    var blog: String? = "",
+    var company: String? = "",
+    var email: String? = "",
+    var followers: Int = 0,
+    var following: Int = 0,
+    var hireable: Boolean = false,
+    var location: String? = "",
+    var name: String? = "",
+    var organizations_url: String? = "",
+    var public_gists: Int = 0,
+    var public_repos: Int = 0,
+    var twitter_username: String? = "",
+    var created_at: String = "",
+    var updated_at: String = "",
+    var strGroup: String = ""
 )

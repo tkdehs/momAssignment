@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="mainViewModel"
             type="com.pnx.momassignment.fragment.MainViewModel" />
+
+        <import type="android.view.View"/>
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -25,7 +31,161 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_light_back" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_detail"
+                android:textSize="17dp"
+                />
+            <TextView
+                android:id="@+id/tvSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:layout_marginEnd="10dp"
+                android:textSize="17dp"
+                android:layout_gravity="right"
+                android:visibility="gone"
+                />
         </androidx.appcompat.widget.Toolbar>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvProfileImageRoot"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="20dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    >
+                    <ImageView
+                        android:id="@+id/ivProfileImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/alert_background"
+                        android:scaleType="centerCrop"
+                        imageFromUrl="@{mainViewModel.selectUser.avatar_url}"
+                        />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{mainViewModel.selectUser.name}"
+                    android:textSize="17dp"
+                    android:layout_marginTop="15dp"
+                    tools:text="사용자 이름"
+                    android:fontFamily="@font/notokr_bold"
+                    app:layout_constraintTop_toBottomOf="@+id/cvProfileImageRoot"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/tvUserEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:layout_marginTop="10dp"
+                    android:text='@{"email:" + mainViewModel.selectUser.email}'
+                    android:visibility='@{mainViewModel.selectUser.email == null ? View.GONE : View.VISIBLE}'
+                    tools:text="email:testtest@test.test"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUserName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+                <TextView
+                    android:id="@+id/tvUserBlog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:layout_marginTop="5dp"
+                    android:text='@{"blog:" + mainViewModel.selectUser.blog}'
+                    android:visibility='@{mainViewModel.selectUser.blog == null ? View.GONE : View.VISIBLE}'
+                    tools:text="blog:blog"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUserEmail"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+                <TextView
+                    android:id="@+id/tvUserLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:layout_marginTop="5dp"
+                    android:text='@{"location:" + mainViewModel.selectUser.location}'
+                    android:visibility='@{mainViewModel.selectUser.location == null ? View.GONE : View.VISIBLE}'
+                    tools:text="location:location"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUserBlog"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+                <TextView
+                    android:id="@+id/tvUserCompany"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:layout_marginTop="5dp"
+                    android:text='@{"company:" + mainViewModel.selectUser.company}'
+                    android:visibility='@{mainViewModel.selectUser.company == null ? View.GONE : View.VISIBLE}'
+                    tools:text="company:company"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUserLocation"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/tvMemoTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="17dp"
+                    android:layout_marginTop="50dp"
+                    android:text='메모'
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/notokr_bold"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUserCompany"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@drawable/alert_background"
+                    android:backgroundTint="@color/AliceBlue"
+                    android:layout_marginBottom="50dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMemoTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    >
+                    <EditText
+                        android:id="@+id/etMemoText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textMultiLine"
+                        android:maxLines="10"
+                        android:maxLength="200"
+                        android:textSize="13dp"
+                        android:text="@{mainViewModel.selectUser.memo}"
+                        android:hint="@string/input_memo"
+                        android:background="#00000000"
+                        android:gravity="top"
+                        android:layout_margin="10dp"
+                        />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </LinearLayout>
 </layout>
