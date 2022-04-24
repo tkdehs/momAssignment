@@ -24,5 +24,6 @@ class UserItem (
     @ColumnInfo(name = "received_events_url") var received_events_url: String = "",
     @ColumnInfo(name = "type") var type: String = "",
     @ColumnInfo(name = "site_admin") var site_admin: String = "",
-    @ColumnInfo(name = "score") var score: Int = 0
+    @ColumnInfo(name = "score") var score: Int = 0,
+    @ColumnInfo(name = "memo") var memo: String = ""
 )
