@@ -30,7 +30,7 @@ class MainViewModel(private val dataSource: ActivityDataSource) : ViewModel() {
 
 
     /**
-     * 선택 된 메뉴 저장
+     * 선택 된 메뉴 저장ㅅㄷㄴㅅ
      */
     fun setSelectedMenuId(selectedMenuId: Int) {
         _selectedMainTabMenu.value = selectedMenuId
