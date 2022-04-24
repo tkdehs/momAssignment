@@ -1,0 +1,55 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.main" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/mainColor</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/mainColor</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/mainColor</item>
+        <item name="colorSecondaryVariant">@color/mainColor</item>
+        <item name="colorOnSecondary">@color/mainColor</item>
+        <item name="colorAccent">@color/mainColor</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="colorControlActivated">@color/mainColor</item>
+        <item name="android:textColorHint">@color/color979DA6</item>
+        <item name="android:windowBackground">@color/white</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+
+        <!-- enable window content transitions -->
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowEnterTransition">@android:transition/slide_right</item>
+        <item name="android:windowExitTransition">@android:transition/slide_left</item>
+    </style>
+
+    <!-- 큰 크기 버튼 -->
+    <style name="buttonBlueLarge" parent="Widget.AppCompat.Button">
+        <item name="android:height">50dp</item>
+        <item name="android:minHeight">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:drawablePadding">5dp</item>
+    </style>
+
+    <!-- CDialog 취소 버튼 -->
+    <style name="alertButtonDisButtonBottom" parent="buttonBlueLarge">
+        <item name="android:height">50dp</item>
+        <item name="android:minHeight">50dp</item>
+        <item name="android:background">@drawable/alert_button_6c76a9_bottom</item>
+    </style>
+    <!-- CDialog 확인 버튼 -->
+    <style name="alertButtonBlueButtonBottom" parent="buttonBlueLarge">
+        <item name="android:height">50dp</item>
+        <item name="android:minHeight">50dp</item>
+        <item name="android:background">@drawable/alert_button_blue_bottom</item>
+    </style>
+
+    <style name="mainTabs" parent="Widget.Design.BottomNavigationView">
+        <item name="android:textSize">12dp</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+</resources>
