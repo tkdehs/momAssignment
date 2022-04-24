@@ -108,6 +108,11 @@ class FavoritesUserFragment:BaseFragment() {
         searchUserLocal()
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
+    }
+
     override fun setObserve() {
         super.setObserve()
         mainViewModel.localSearchUserList.observe(viewLifecycleOwner) {

@@ -58,7 +58,6 @@ class SearchUserFragment:BaseFragment() {
         adapter = UserListAdapter(mainViewModel,this)
         binding.rvSearchUser.layoutManager = GridLayoutManager(requireActivity(), 1, GridLayoutManager.VERTICAL, false)
         binding.rvSearchUser.adapter = adapter
-
         adapter.addLoadStateListener { loadState ->
             if (loadState.source.refresh is LoadState.Loading) {
                 goFirst = true
@@ -76,6 +75,11 @@ class SearchUserFragment:BaseFragment() {
                 binding.tvNoData.visibility = View.GONE
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
     }
 
     private fun searchUser(){

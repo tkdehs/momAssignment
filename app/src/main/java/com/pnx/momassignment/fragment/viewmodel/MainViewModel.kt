@@ -53,6 +53,10 @@ class MainViewModel(private val dataSource: ActivityDataSource) : ViewModel() {
         _selectedMainTabMenu.value = selectedMenuId
     }
 
+    fun refresh(){
+        _selectUser.value = selectUser.value
+    }
+
     fun setUserMemo(memo:String) {
         _selectUser.value?.memo = memo
     }
