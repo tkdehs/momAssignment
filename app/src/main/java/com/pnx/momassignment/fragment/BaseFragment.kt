@@ -16,21 +16,16 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.pnx.momassignment.BaseApplication
 import com.pnx.momassignment.Define
 import com.pnx.momassignment.R
 import com.pnx.momassignment.activity.ActivityViewModel
 import com.pnx.momassignment.activity.BaseActivity
-import com.pnx.momassignment.component.CDialog
-import com.pnx.momassignment.util.NetworkUtil
 import com.pnx.momassignment.util.UIUtil
 import kotlinx.coroutines.*
-import java.util.concurrent.Executors
 
 open class BaseFragment: Fragment() {
     val TAG = this::class.simpleName

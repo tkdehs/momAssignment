@@ -21,19 +21,12 @@ public class CustomGsonResponseBodyConverter<T> implements Converter<ResponseBod
 
     @Override
     public T convert(ResponseBody value) throws IOException {
-//        JsonReader jsonReader = gson.newJsonReader(value.charStream());
         String json = value.string();
         try {
-//            T result = adapter.read(jsonReader);
-//            if (jsonReader.peek() != JsonToken.END_DOCUMENT) {
-//                throw new JsonIOException("JSON document was not fully consumed.");
-//            }
             String TAG = "API " + adapter.fromJson("{}").getClass().getSimpleName();
             String jsonString = JsonLogPrint.printJson(TAG, json, true);
 
-            T result = adapter.fromJson(json);//adapter.read(jsonReader);
-//            String TAG = "API " + result.getClass().getSimpleName();
-//            String jsonString = JsonLogPrint.printJson(TAG, gson.toJson(result), true);
+            T result = adapter.fromJson(json);
             return result;
         } catch (Exception e) {
             e.printStackTrace();

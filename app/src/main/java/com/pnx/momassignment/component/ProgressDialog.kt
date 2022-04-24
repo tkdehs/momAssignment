@@ -20,6 +20,5 @@ class ProgressDialog(context: Context) : Dialog(context) {
            playAnimation()
            repeatCount = LottieDrawable.INFINITE
         }
-//        Glide.with(context).asGif().load(R.raw.progress_gif).into(imgProgress);
     }
 }

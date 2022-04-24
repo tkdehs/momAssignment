@@ -99,11 +99,6 @@ class MainFragment : BaseFragment() {
         return fragment
     }
 
-    fun getMainChildFragment(itemId: Int): Fragment? {
-        val fragmentTag = itemId.toString() // Proguard 적용시 fragment class 값으로 할 경우 오류 발생 가능
-        return childFragmentManager.findFragmentByTag(fragmentTag)
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         setOnAttachBackpress { finishCheck() }
